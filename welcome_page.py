@@ -1,4 +1,6 @@
 from log_in import log_in_to_account
+from new_account import *
+
 class Options:
 
     def welcome_page():
@@ -6,7 +8,7 @@ class Options:
         print("WELCOME OUR BANK")
         print()
 
-    def menu():
+    def main_menu():
 
         while True:
             print("Select options:")
@@ -19,7 +21,10 @@ class Options:
             if choice == "1":
                 log_in_to_account()
             elif choice == '2':
-                print("Create a new account - feature coming soon!")
+                NewAccount.get_id_input()
+                NewAccount.get_password_input()
+                NewAccount.get_email_input()
+                NewAccount.accept_regulation()
             elif choice == '3':
                 print("Change password - feature coming soon!")
             elif choice == '4':

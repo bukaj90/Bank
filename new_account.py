@@ -1,35 +1,63 @@
-#1. Login
-#2. hasło
-#3. powtorz haslo
-#4. zaznaczenie regulaminu yes, no - w przypadku braku zgody wymagać zaznaczenia
-#5. wysłanie danych do pliku ID, passowrd, email  - stworzyć plik kodujący i rozkodowywujacy, jak wpisane kilka razy złe hasło to w pliku wprowadzic ****
-#6. zabezpieczenie przed wprowadzeniem za długich za krótkich nazw id i hasla, sprawdzanie poprawnosci email składnia
+import re
+class NewAccount:
+    print("CREATE A NEW ACCOUNT")
 
-print("CREATE A NEW ACCOUNT")
+    def get_id_input(prompt):
+        while True:
+            correct_id = input(prompt)
+            if correct_id.isdigit() and len(correct_id) == 8:
+                return int(correct_id)
+            else:
+                print("Enter only digits and 8 characters")
 
-correct_id = input("Enter 3 digit ID: ")
-
-correct_password = input("Enter 3 digit password: ")
-repeat_correct_password = input("Repeat password: ")
-
-address_email = input("Enter your address email: ")
-repeat_address_email = input("Repeat your address email: ")
-
-accept_regulation = input("Please acceptance ot the Regulation (yes/no): ")
-
-exit = input("Enter Exit to terminate the process")
+    numer = get_id_input("Enter 8 digits ID: ")
+    print("ID accepted!")
+    print()
 
 
-if correct_password != repeat_correct_password:
-    print("Incorrect password, enter again")
-else:
-    print("Your account has been created, you can log in")
+    def get_password_input(prompt):
 
-if address_email != address_email:
-    print("Incorrect address email or repeat address")
+        while True:
+            password = input(prompt)
+            if re.fullmatch(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$",password):
+                return password
+            else:
+                print("Error: Password must be at least 8 characters long, contain uppercase and lowercase letters, a number and a special character")
 
+    correct_password = get_password_input("Enter your password 8 characters: ")
+    reenter_password = get_password_input("Re-enter your password 8 characters: ")
 
-if accept_regulation.lower() != 'yes':
-    print("You must accept the regulations to proceed.")
-else:
-    print("Regulations accepted. Welcome!!")
+    if correct_password != reenter_password:
+        print("Error: Passwords do not match!")
+    else:
+        print("Password accepted!!")
+        print()
+
+    def get_email_input(prompt):
+        while True:
+            email = input(prompt)
+            if re.fullmatch(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+                return email
+            else:
+                print("Error: Please enter a valid email address")
+
+    address_email = get_email_input("Enter your address email: ")
+    reenter_email = get_email_input("Re-enter your email: ")
+
+    if address_email != reenter_email:
+        print("Error: Email do not match")
+    else:
+        print("Email accepted")
+        print()
+
+    def accept_regulation(prompt):
+        while True:
+            regulation = input(prompt)
+            if re.fullmatch(r"^yes$", regulation.lower()):
+                print("Regulation has been accepted!!!")
+                return regulation.lower()
+            else:
+                print("You must accept the regulation by typing YES.")
+                print()
+
+    accepted_regulation = accept_regulation("Please accept the regulation (yes): ")
