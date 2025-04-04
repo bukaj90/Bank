@@ -1,7 +1,9 @@
 import re
 class NewAccount:
-    print("CREATE A NEW ACCOUNT")
 
+    def __init__(self):
+        print("CREATE A NEW ACCOUNT")
+    @staticmethod
     def get_id_input(prompt):
         while True:
             correct_id = input(prompt)
@@ -10,11 +12,7 @@ class NewAccount:
             else:
                 print("Enter only digits and 8 characters")
 
-    numer = get_id_input("Enter 8 digits ID: ")
-    print("ID accepted!")
-    print()
-
-
+    @staticmethod
     def get_password_input(prompt):
 
         while True:
@@ -24,15 +22,8 @@ class NewAccount:
             else:
                 print("Error: Password must be at least 8 characters long, contain uppercase and lowercase letters, a number and a special character")
 
-    correct_password = get_password_input("Enter your password 8 characters: ")
-    reenter_password = get_password_input("Re-enter your password 8 characters: ")
 
-    if correct_password != reenter_password:
-        print("Error: Passwords do not match!")
-    else:
-        print("Password accepted!!")
-        print()
-
+    @staticmethod
     def get_email_input(prompt):
         while True:
             email = input(prompt)
@@ -41,15 +32,7 @@ class NewAccount:
             else:
                 print("Error: Please enter a valid email address")
 
-    address_email = get_email_input("Enter your address email: ")
-    reenter_email = get_email_input("Re-enter your email: ")
-
-    if address_email != reenter_email:
-        print("Error: Email do not match")
-    else:
-        print("Email accepted")
-        print()
-
+    @staticmethod
     def accept_regulation(prompt):
         while True:
             regulation = input(prompt)
@@ -60,4 +43,27 @@ class NewAccount:
                 print("You must accept the regulation by typing YES.")
                 print()
 
-    accepted_regulation = accept_regulation("Please accept the regulation (yes): ")
+    def create_account(self):
+        numer = self.get_id_input("Enter 8 digits ID: ")
+        print("ID accepted!")
+        print()
+
+        correct_password = self.get_password_input("Enter your password 8 characters: ")
+        reenter_password = self.get_password_input("Re-enter your password 8 characters: ")
+
+        if correct_password != reenter_password:
+            print("Error: Passwords do not match!")
+        else:
+            print("Password accepted!!")
+            print()
+
+        address_email = self.get_email_input("Enter your address email: ")
+        reenter_email = self.get_email_input("Re-enter your email: ")
+
+        if address_email != reenter_email:
+            print("Error: Email do not match")
+        else:
+            print("Email accepted")
+            print()
+
+        accepted_regulation = self.accept_regulation("Please accept the regulation (yes): ")
