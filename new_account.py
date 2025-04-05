@@ -1,19 +1,24 @@
 import re
+from write_read import WriteRead
 class NewAccount:
 
     def __init__(self):
         print("CREATE A NEW ACCOUNT")
-    @staticmethod
-    def get_id_input(prompt):
+        self.write = WriteRead()
+
+    def get_id_input(self, prompt):
         while True:
             correct_id = input(prompt)
-            if correct_id.isdigit() and len(correct_id) == 8:
-                return int(correct_id)
-            else:
+            if not correct_id.isdigit() or len(correct_id) != 8:
                 print("Enter only digits and 8 characters")
+                continue
 
-    @staticmethod
-    def get_password_input(prompt):
+            if self.write.id_exist(correct_id):
+                print("This ID already exists! Please enter a different one.")
+                continue
+            return correct_id
+
+    def get_password_input(self,prompt):
 
         while True:
             password = input(prompt)
@@ -23,17 +28,20 @@ class NewAccount:
                 print("Error: Password must be at least 8 characters long, contain uppercase and lowercase letters, a number and a special character")
 
 
-    @staticmethod
-    def get_email_input(prompt):
+
+    def get_email_input(self, prompt):
         while True:
             email = input(prompt)
-            if re.fullmatch(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
-                return email
-            else:
+            if not re.fullmatch(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
                 print("Error: Please enter a valid email address")
+                continue
 
-    @staticmethod
-    def accept_regulation(prompt):
+            if self.write.email_exist(email):
+                print("This email is already used. Please enter another.")
+                continue
+            return email
+
+    def accept_regulation(self, prompt):
         while True:
             regulation = input(prompt)
             if re.fullmatch(r"^yes$", regulation.lower()):
@@ -45,7 +53,7 @@ class NewAccount:
 
     def create_account(self):
         numer = self.get_id_input("Enter 8 digits ID: ")
-        print("ID accepted!")
+        print("ID accepted!\n")
         print()
 
         correct_password = self.get_password_input("Enter your password 8 characters: ")
@@ -67,3 +75,7 @@ class NewAccount:
             print()
 
         accepted_regulation = self.accept_regulation("Please accept the regulation (yes): ")
+
+        self.write.save_to_file(numer, correct_password, address_email,accepted_regulation)
+
+        print("Your account has been created. You can log in now")
