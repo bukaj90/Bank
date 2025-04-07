@@ -17,6 +17,7 @@ def log_in_to_account():
 
         if record_found:
             print("Login successfully")
+            wr.log_login_attempt(user_id, success=True)
             break
 
         else:
@@ -26,6 +27,8 @@ def log_in_to_account():
 
             else:
                 print("ID or password is incorrect.\n")
+
+            wr.log_login_attempt(user_id, success=False)
 
             if attempts_left == 0:
                 print("Your account has been BLOCKED due to multiple incorrect attempts\n")

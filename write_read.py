@@ -1,3 +1,5 @@
+import hashlib
+from datetime import datetime
 import os
 class WriteRead:
 
@@ -21,10 +23,21 @@ class WriteRead:
                     return True
         return False
 
+    def hash_password(self, password):
+        return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    def log_login_attempt(self, user_id, success):
+        with open("login_attempts.log", "a", encoding="utf-8") as log_file:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            status = "Success" if success else "Failure"
+            log_file.write(f"{timestamp} - ID: {user_id} - Status: {status}\n")
+
     def save_to_file(self, user_id, password, email, regulation):
+        hashed_password = self.hash_password(password)
+
         with open("dane.txt", "a", encoding="utf-8") as file:
             file.write(f"ID: {user_id}\n")
-            file.write(f"Password: {password}\n")
+            file.write(f"Password: {hashed_password}\n")
             file.write(f"Email: {email}\n")
             file.write(f"Accepted Regulation: {regulation}\n")
             file.write("-" * 30 + "\n")
@@ -39,7 +52,7 @@ class WriteRead:
 
                 if line == "------------------------------":
                     if temporary_user.get("ID") == user_id:
-                        if temporary_user.get("Password") == user_password:
+                        if temporary_user.get("Password") == self.hash_password(user_password):
                             records_found = True
                             break
                         else:
