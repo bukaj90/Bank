@@ -28,3 +28,28 @@ class WriteRead:
             file.write(f"Email: {email}\n")
             file.write(f"Accepted Regulation: {regulation}\n")
             file.write("-" * 30 + "\n")
+
+    def open_file_login_checking(self,user_id, user_password):
+        records_found = False
+        temporary_user = {}
+
+        with open('dane.txt', 'r', encoding='utf-8') as file:
+            for line in file:
+                line = line.strip()
+
+                if line == "------------------------------":
+                    if temporary_user.get("ID") == user_id:
+                        if temporary_user.get("Password") == user_password:
+                            records_found = True
+                            break
+                        else:
+                            break
+                    else:
+                        temporary_user = {}
+
+                else:
+                    if ":" in line:
+                        key, value = line.split(":", 1)
+                        temporary_user[key.strip()] = value.strip()
+
+        return records_found

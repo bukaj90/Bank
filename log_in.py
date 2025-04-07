@@ -1,10 +1,8 @@
+from write_read import WriteRead
 def log_in_to_account():
     print("To log-in, please provide your ID and password")
 
-    # Data with file
-    correct_id = '123'
-    correct_password = '123'
-
+    wr = WriteRead()
     max_attempts = 4
     attempts_left = max_attempts
 
@@ -13,14 +11,22 @@ def log_in_to_account():
         user_password = str(input("Enter your password: "))
         print()
 
-        if user_id == correct_id and user_password == correct_password:
+        print("Checking your login details...\n")
+        record_found = wr.open_file_login_checking(user_id, user_password)
+
+
+        if record_found:
             print("Login successfully")
             break
+
         else:
-            attempts_left -= 1
-            if attempts_left > 0:
-                print(f"Incorrect login or password. You have {attempts_left} attempts left.")
-                print()
+            if wr.id_exist(user_id):
+                attempts_left -= 1
+                print(f"ID or password is incorrect. You have {attempts_left} attempts left.\n")
+
             else:
-                print("Your account has been BLOCKED due to multiple incorrect attempts")
-                print()
+                print("ID or password is incorrect.\n")
+
+            if attempts_left == 0:
+                print("Your account has been BLOCKED due to multiple incorrect attempts\n")
+                break
