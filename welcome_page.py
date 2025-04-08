@@ -1,5 +1,6 @@
 from log_in import log_in_to_account
 from new_account import NewAccount
+from change_password import reset_password
 
 class Options:
     @staticmethod
@@ -23,7 +24,7 @@ class Options:
                     account = NewAccount()
                     account.create_account()
                 elif choice == '3':
-                    print("Change password - feature coming soon!")
+                    reset_password()
                 elif choice == '4':
                     print("Exiting program. Goodbye!")
                     break
